@@ -81,8 +81,8 @@ class _WorksPageState extends State<WorksPage> with SingleTickerProviderStateMix
                     spacing: 8.0, // spacing between chips
                     children: labels.map((label) {
                       return Chip(
-                        label: Text(label),
-                        backgroundColor: Colors.blueAccent.withOpacity(0.1),
+                        label: Text(label,style:TextStyle(color: Colors.white),),
+                        backgroundColor: Color.fromARGB(255, 44, 42, 42),
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(8.0),
                         ),
@@ -120,10 +120,21 @@ class _WorksPageState extends State<WorksPage> with SingleTickerProviderStateMix
                     )),
                     child: Padding(
                       padding: const EdgeInsets.all(8.0),
-                      child: Image.asset(
-                        imagePath,
-                        width: 400,
-                        height: 350,
+                      child: Row(
+                        children: [
+                          Container(
+                            width: 400,
+                            color: Colors.white54,
+                            child: Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Image.asset(
+                                imagePath,
+                                width: 200,
+                                height: 350,
+                              ),
+                            ),
+                          ),
+                        ],
                       ),
                     ),
                   ),

@@ -21,7 +21,7 @@ class _WorksPageState extends State<WorksPage> with SingleTickerProviderStateMix
     // Initialize the animation controller
     _animationController = AnimationController(
       vsync: this,
-      duration: Duration(milliseconds: 500),
+      duration: Duration(milliseconds: 250),
     );
     // Add listener to vertical scroll controller
     _verticalScrollController.addListener(_onScroll);
@@ -55,7 +55,7 @@ class _WorksPageState extends State<WorksPage> with SingleTickerProviderStateMix
   }
 
   // Widget to build each work item
-  Widget buildWorkItem(String title, String description, String imagePath, int index) {
+  Widget buildWorkItem(String title, String description, String imagePath, int index, List<String> labels) {
     return Column(
       children: [
         // Row containing work item details and image
@@ -74,6 +74,20 @@ class _WorksPageState extends State<WorksPage> with SingleTickerProviderStateMix
                   Text(
                     description,
                     style: subTextStyle,
+                  ),
+                  const SizedBox(height: 8),
+                  // Wrap to contain dynamic labels
+                  Wrap(
+                    spacing: 8.0, // spacing between chips
+                    children: labels.map((label) {
+                      return Chip(
+                        label: Text(label),
+                        backgroundColor: Colors.blueAccent.withOpacity(0.1),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(8.0),
+                        ),
+                      );
+                    }).toList(),
                   ),
                 ],
               ),
@@ -108,8 +122,8 @@ class _WorksPageState extends State<WorksPage> with SingleTickerProviderStateMix
                       padding: const EdgeInsets.all(8.0),
                       child: Image.asset(
                         imagePath,
-                        width: 500,
-                        height: 500,
+                        width: 400,
+                        height: 350,
                       ),
                     ),
                   ),
@@ -166,36 +180,42 @@ class _WorksPageState extends State<WorksPage> with SingleTickerProviderStateMix
                 ],
               ),
             ),
-            // Build each work item
+            const Divider(thickness: 0.5),
+            // Build each work item with dynamic labels
             buildWorkItem(
               "Card Management App for Card Holder",
               "A user-centric crypto exchange providing a seamless trading experience designed for novice and advanced users.",
               "assets/work2.png",
               0,
+              ["Finance", "Crypto", "User Experience"],
             ),
             buildWorkItem(
               "E-Commerce Application",
               "A versatile e-commerce app designed to enhance the online shopping experience with intuitive navigation and secure transactions.",
               "assets/work1.png",
               1,
+              ["Shopping", "E-Commerce", "Security"],
             ),
             buildWorkItem(
               "Weather App with Realtime API",
               "A weather forecasting app that provides accurate and up-to-date weather information based on real-time data.",
               "assets/work2.png",
               2,
+              ["Weather", "API", "Realtime Data"],
             ),
             buildWorkItem(
               "BMI Calculator",
               "A user-friendly BMI calculator that helps users keep track of their body mass index and maintain a healthy lifestyle.",
               "assets/work1.png",
               3,
+              ["Health", "Fitness", "Calculator"],
             ),
             buildWorkItem(
               "Chat Application with Firebase",
               "A real-time chat application leveraging Firebase for seamless and instantaneous messaging.",
               "assets/work2.png",
               4,
+              ["Chat", "Firebase", "Realtime"],
             ),
           ],
         ),

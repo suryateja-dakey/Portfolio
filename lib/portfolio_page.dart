@@ -53,7 +53,7 @@ class _PortfolioPageState extends State<PortfolioPage> {
                     fit: StackFit.expand,
                     children: [
                       RiveAnimation.asset(
-                        "assets/eclipse.riv",
+                        "assets/creativebg.riv",
                         fit: BoxFit.cover,
                         stateMachines: ['State Machine 1'],
                         onInit: (artBoard) {
@@ -113,23 +113,16 @@ class _PortfolioPageState extends State<PortfolioPage> {
               Expanded(
                 child: PageView(
                   controller: _pageController,
-                  children: const [
-                    AboutPage(),
-                    WorksPage(),
-                    CreativesPage(),
-                    
+                  children: [
+                    AboutPage(onTabSelected: _onTabSelected),
+                    const WorksPage(),
+                    const CreativesPage(),
                   ],
                 ),
               ),
-       
             ],
           ),
         ),
-        // floatingActionButton: FloatingActionButton(
-        //   onPressed: _toggleHeadAnimation,
-        //   tooltip: 'Toggle Animation',
-        //   child: const Icon(Icons.play_arrow),
-        // ),
       ),
     );
   }

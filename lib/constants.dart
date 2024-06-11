@@ -3,32 +3,32 @@ import 'package:google_fonts/google_fonts.dart';
 
 const Color appBarBackgroundColor = Color.fromARGB(255, 72, 45, 77);
 
-final TextStyle headerTextStyle = GoogleFonts.karla(
+final TextStyle headerTextStyle = GoogleFonts.abel(
   color: Colors.white,
   
   fontSize: 14,
   fontWeight: FontWeight.w300,
 );
-final TextStyle subTextStyle = GoogleFonts.karla(
+final TextStyle subTextStyle = GoogleFonts.workSans(
   color: Colors.white,
   fontSize: 14,
-  fontWeight: FontWeight.w300,
+  fontWeight: FontWeight.w200,
 );
 
-final TextStyle headerWorkTextStyle = GoogleFonts.karla(
-  color: Colors.white,
-  fontSize: 28,
-  fontWeight: FontWeight.w400,
+final TextStyle headerWorkTextStyle = GoogleFonts.workSans(
+  color: Colors.white.withOpacity(0.9),
+  fontSize: 30,
+  fontWeight: FontWeight.w500,
 );
 
-final TextStyle tabTextStyle = GoogleFonts.karla(
+final TextStyle tabTextStyle = GoogleFonts.workSans(
   color: Colors.white,
   fontSize: 15,
   fontWeight: FontWeight.w300,
 );
 
-final TextStyle sectionTitleTextStyle = TextStyle(
-  fontSize: 18,
+final TextStyle sectionTitleTextStyle = GoogleFonts.workSans(
+  fontSize: 32,
   fontWeight: FontWeight.bold,
   color: Colors.white,
 );

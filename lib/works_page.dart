@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:rive/rive.dart';
 import 'package:visibility_detector/visibility_detector.dart';
 import 'constants.dart';
 
 class WorksPage extends StatefulWidget {
-  const WorksPage({Key? key}) : super(key: key);
+  const WorksPage({super.key});
 
   @override
+  // ignore: library_private_types_in_public_api
   _WorksPageState createState() => _WorksPageState();
 }
 
@@ -13,23 +15,32 @@ class _WorksPageState extends State<WorksPage> with SingleTickerProviderStateMix
   final ScrollController _verticalScrollController = ScrollController();
   final ScrollController _horizontalScrollController = ScrollController();
   late AnimationController _animationController;
-  List<bool> _imageVisibility = List.filled(5, false);
+  final List<bool> _imageVisibility = List.filled(5, false);
+  final List<bool> _isHovered = List.filled(5, false);
+
+  final List<Color> _containerColors = [
+    Colors.red.shade100,
+    Colors.blue.shade100,
+    Colors.green.shade100,
+    Colors.yellow.shade100,
+    Colors.purple.shade100,
+  ];
+
+  StateMachineController? stateMachineController;
+  SMIInput<bool>? isHead;
 
   @override
   void initState() {
     super.initState();
-    // Initialize the animation controller
     _animationController = AnimationController(
       vsync: this,
       duration: Duration(milliseconds: 250),
     );
-    // Add listener to vertical scroll controller
     _verticalScrollController.addListener(_onScroll);
   }
 
   @override
   void dispose() {
-    // Remove listener and dispose controllers
     _verticalScrollController.removeListener(_onScroll);
     _verticalScrollController.dispose();
     _horizontalScrollController.dispose();
@@ -37,7 +48,6 @@ class _WorksPageState extends State<WorksPage> with SingleTickerProviderStateMix
     super.dispose();
   }
 
-  // Function to handle scroll events
   void _onScroll() {
     for (int i = 0; i < _imageVisibility.length; i++) {
       final double startOffset = i * MediaQuery.of(context).size.height;
@@ -54,16 +64,14 @@ class _WorksPageState extends State<WorksPage> with SingleTickerProviderStateMix
     }
   }
 
-  // Widget to build each work item
-  Widget buildWorkItem(String title, String description, String imagePath, int index, List<String> labels) {
+  Widget buildWorkItem(String title, String description, String imagePath, int index, List<String> labels, Color containerColor) {
     return Column(
       children: [
-        // Row containing work item details and image
         Row(
           children: [
-            // Work item details
             Expanded(
               child: Column(
+                mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
@@ -76,12 +84,11 @@ class _WorksPageState extends State<WorksPage> with SingleTickerProviderStateMix
                     style: subTextStyle,
                   ),
                   const SizedBox(height: 8),
-                  // Wrap to contain dynamic labels
                   Wrap(
-                    spacing: 8.0, // spacing between chips
+                    spacing: 8.0,
                     children: labels.map((label) {
                       return Chip(
-                        label: Text(label,style:TextStyle(color: Colors.white),),
+                        label: Text(label, style: TextStyle(color: Colors.white)),
                         backgroundColor: Color.fromARGB(255, 44, 42, 42),
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(8.0),
@@ -93,7 +100,6 @@ class _WorksPageState extends State<WorksPage> with SingleTickerProviderStateMix
               ),
             ),
             const SizedBox(width: 16),
-            // Animated image
             Flexible(
               child: VisibilityDetector(
                 key: Key('$imagePath$index'),
@@ -107,34 +113,56 @@ class _WorksPageState extends State<WorksPage> with SingleTickerProviderStateMix
                     }
                   }
                 },
-                child: AnimatedOpacity(
-                  duration: Duration(milliseconds: 500),
-                  opacity: _imageVisibility[index] ? 1 : 0,
-                  child: SlideTransition(
-                    position: Tween<Offset>(
-                      begin: Offset(1.0, 0.0),
-                      end: Offset.zero,
-                    ).animate(CurvedAnimation(
-                      parent: _animationController,
-                      curve: Curves.easeInOut,
-                    )),
-                    child: Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Row(
-                        children: [
-                          Container(
-                            width: 400,
-                            color: Colors.white54,
-                            child: Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: Image.asset(
-                                imagePath,
-                                width: 200,
-                                height: 350,
+                child: MouseRegion(
+                  onEnter: (_) {
+                    setState(() {
+                      _isHovered[index] = true;
+                    });
+                  },
+                  onExit: (_) {
+                    setState(() {
+                      _isHovered[index] = false;
+                    });
+                  },
+                  child: AnimatedContainer(
+                    height: 360,
+                    width: 540,
+                    duration: Duration(milliseconds: 300),
+                    transform: _isHovered[index]
+                        ? (Matrix4.identity()..scale(1.05))
+                        : Matrix4.identity(),
+                    child: AnimatedOpacity(
+                      duration: Duration(milliseconds: 500),
+                      opacity: _imageVisibility[index] ? 1 : 0,
+                      child: SlideTransition(
+                        position: Tween<Offset>(
+                          begin: Offset(1.0, 0.0),
+                          end: Offset.zero,
+                        ).animate(CurvedAnimation(
+                          parent: _animationController,
+                          curve: Curves.easeInOut,
+                        )),
+                        child: Padding(
+                          padding: const EdgeInsets.all(16.0),
+                          child: AspectRatio(
+                            aspectRatio: 7 / 4.5,
+                            child: Container(
+                              decoration: BoxDecoration(
+                                color: containerColor,
+                                borderRadius: BorderRadius.circular(16.0),
+                              ),
+                              child: ClipRRect(
+                                borderRadius: BorderRadius.circular(16.0),
+                                child: Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Image.asset(
+                                    imagePath,
+                                  ),
+                                ),
                               ),
                             ),
                           ),
-                        ],
+                        ),
                       ),
                     ),
                   ),
@@ -150,86 +178,82 @@ class _WorksPageState extends State<WorksPage> with SingleTickerProviderStateMix
 
   @override
   Widget build(BuildContext context) {
-    return SingleChildScrollView(
-      controller: _verticalScrollController,
-      child: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            const SizedBox(height: 16),
-            Text(
-              'Some of my works:',
-              style: sectionTitleTextStyle,
-            ),
-            const SizedBox(height: 8),
-            SizedBox(
-              height: 150,
-              child: ListView(
-                controller: _horizontalScrollController,
-                scrollDirection: Axis.horizontal,
+    return Scaffold(
+      body: Stack(
+        children: [
+          // Rive animation background
+          RiveAnimation.asset(
+            "assets/workbg.riv",
+            fit: BoxFit.cover,
+            stateMachines: ['State Machine 1'],
+            onInit: (artBoard) {
+              stateMachineController = StateMachineController.fromArtboard(
+                  artBoard, 'State Machine 1');
+              if (stateMachineController == null) return;
+              artBoard.addController(stateMachineController!);
+              isHead = stateMachineController?.findInput<bool>('Flare');
+            },
+          ),
+          // Main content
+          SingleChildScrollView(
+            controller: _verticalScrollController,
+            child: Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Image.asset('assets/work1.png'),
+                  const SizedBox(height: 16),
+                  Text(
+                    'Selected Works',
+                    style: sectionTitleTextStyle,
                   ),
-                  const SizedBox(width: 8),
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Image.asset('assets/work2.png'),
+                  const Divider(thickness: 0.5),
+                  buildWorkItem(
+                    "Card Management App for Card Holder",
+                    "A user-centric crypto exchange providing a seamless trading experience designed for novice and advanced users.",
+                    "assets/work2.png",
+                    0,
+                    ["Finance", "Crypto", "User Experience"],
+                    _containerColors[0],
                   ),
-                  const SizedBox(width: 8),
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Image.asset('assets/work1.png'),
+                  buildWorkItem(
+                    "E-Commerce Application",
+                    "A versatile e-commerce app designed to enhance the online shopping experience with intuitive navigation and secure transactions.",
+                    "assets/work1.png",
+                    1,
+                    ["Shopping", "E-Commerce", "Security"],
+                    _containerColors[1],
                   ),
-                  const SizedBox(width: 8),
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Image.asset('assets/work2.png'),
+                  buildWorkItem(
+                    "Weather App with Realtime API",
+                    "A weather forecasting app that provides accurate and up-to-date weather information based on real-time data.",
+                    "assets/work2.png",
+                    2,
+                    ["Weather", "API", "Realtime Data"],
+                    _containerColors[2],
                   ),
+                  buildWorkItem(
+                    "BMI Calculator",
+                    "A user-friendly BMI calculator that helps users keep track of their body mass index and maintain a healthy lifestyle.",
+                    "assets/work1.png",
+                    3,
+                    ["Health", "Fitness", "Calculator"],
+                    _containerColors[3],
+                  ),
+                  buildWorkItem(
+                    "Chat Application with Firebase",
+                    "A real-time chat application leveraging Firebase for seamless and instantaneous messaging.",
+                    "assets/work2.png",
+                    4,
+                    ["Chat", "Firebase", "Realtime"],
+                    _containerColors[4],
+                  ),
+                  buildConnectFooter(),
                 ],
               ),
             ),
-            const Divider(thickness: 0.5),
-            // Build each work item with dynamic labels
-            buildWorkItem(
-              "Card Management App for Card Holder",
-              "A user-centric crypto exchange providing a seamless trading experience designed for novice and advanced users.",
-              "assets/work2.png",
-              0,
-              ["Finance", "Crypto", "User Experience"],
-            ),
-            buildWorkItem(
-              "E-Commerce Application",
-              "A versatile e-commerce app designed to enhance the online shopping experience with intuitive navigation and secure transactions.",
-              "assets/work1.png",
-              1,
-              ["Shopping", "E-Commerce", "Security"],
-            ),
-            buildWorkItem(
-              "Weather App with Realtime API",
-              "A weather forecasting app that provides accurate and up-to-date weather information based on real-time data.",
-              "assets/work2.png",
-              2,
-              ["Weather", "API", "Realtime Data"],
-            ),
-            buildWorkItem(
-              "BMI Calculator",
-              "A user-friendly BMI calculator that helps users keep track of their body mass index and maintain a healthy lifestyle.",
-              "assets/work1.png",
-              3,
-              ["Health", "Fitness", "Calculator"],
-            ),
-            buildWorkItem(
-              "Chat Application with Firebase",
-              "A real-time chat application leveraging Firebase for seamless and instantaneous messaging.",
-              "assets/work2.png",
-              4,
-              ["Chat", "Firebase", "Realtime"],
-            ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }

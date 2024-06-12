@@ -39,6 +39,7 @@ dependencies:
   just_audio: ^0.9.38
   google_fonts: ^6.2.1
   visibility_detector: ^0.4.0+2
+  social_media_buttons: ^1.0.0
   
   
   

@@ -14,6 +14,11 @@ final TextStyle subTextStyle = GoogleFonts.workSans(
   fontSize: 14,
   fontWeight: FontWeight.w200,
 );
+final TextStyle noteTextStyle = GoogleFonts.workSans(
+  color: Colors.white,
+  fontSize: 14,
+  fontWeight: FontWeight.w200,
+);
 
 final TextStyle headerWorkTextStyle = GoogleFonts.workSans(
   color: Colors.white.withOpacity(0.9),

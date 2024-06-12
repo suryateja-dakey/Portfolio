@@ -1,11 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:rive/rive.dart' as rive;
-// import 'package:rive/rive.dart';
 import 'constants.dart';
 import 'package:social_media_buttons/social_media_button.dart';
-import 'package:social_media_buttons/social_media_buttons.dart';
-
 
 class AboutPage extends StatelessWidget {
   final Function(int) onTabSelected;
@@ -14,6 +11,10 @@ class AboutPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    double screenWidth = MediaQuery.of(context).size.width;
+    double titleFontSize = screenWidth < 600 ? 30 : 50;
+    double bodyFontSize = screenWidth < 600 ? 14 : 20;
+
     return Scaffold(
       body: Container(
         decoration: BoxDecoration(
@@ -42,7 +43,7 @@ class AboutPage extends StatelessWidget {
                         child: Text(
                           "Hi, I'm Surya Teja Dakey",
                           style: GoogleFonts.caveat(
-                              color: Colors.white, fontSize: 50),
+                              color: Colors.white, fontSize: titleFontSize),
                         ),
                       ),
                     ],
@@ -55,15 +56,15 @@ class AboutPage extends StatelessWidget {
                     children: [
                       Flexible(
                         child: Text(
-                          'I\'m Surya, a passionate Flutter developer with a knack for crafting engaging and user-friendly mobile applications. I thrive in collaborative environments, working closely with designers and product managers to bring innovative ideas to life.\n\nMy current focus is on building beautiful and performant mobile apps as well as web apps using Flutter. I enjoy the challenge of translating complex functionalities into intuitive experiences that empower users.',
+                          'A passionate Flutter developer with a knack for crafting engaging and user-friendly mobile applications. I thrive in collaborative environments, working closely with designers and product managers to bring innovative ideas to life.\n\nMy current focus is on building beautiful and performant mobile apps as well as web apps using Flutter. I enjoy the challenge of translating complex functionalities into intuitive experiences that empower users.',
                           style: GoogleFonts.kalam(
-                              color: Colors.white, fontSize: 20,fontWeight: FontWeight.w200),
+                              color: Colors.white, fontSize: bodyFontSize, fontWeight: FontWeight.w200),
                         ),
                       ),
                       const SizedBox(width: 16),
                       Stack(
                         children: [
-                          //  rive.RiveAnimation.asset(
+                          // rive.RiveAnimation.asset(
                           //   "assets/eclipse.riv",
                           //   fit: BoxFit.cover,
                           //   artboard: 'State Machine 1',
@@ -89,7 +90,7 @@ class AboutPage extends StatelessWidget {
                               backgroundColor: MaterialStateProperty.resolveWith(
                                   (states) {
                                 if (states.contains(MaterialState.hovered)) {
-                                  return Color.fromARGB(255, 84, 58, 132);
+                                  return const Color.fromARGB(255, 84, 58, 132);
                                 }
                                 return Colors.black87;
                               }),
@@ -107,12 +108,13 @@ class AboutPage extends StatelessWidget {
                     children: [
                       Flexible(
                         child: Text(
-                          'Currently, I am helping retail investors to stay up-to-date with the financial market and grow their wealth at OKX.',
+                          'Currently, I am seeking freelancing opportunities to help retail investors stay up-to-date with the financial market and grow their wealth.',
+
                           style: GoogleFonts.kalam(
-                                color: Colors.white, fontSize: 20,fontWeight: FontWeight.w200),
+                                color: Colors.white, fontSize: bodyFontSize, fontWeight: FontWeight.w200),
                         ),
                       ),
-                      Spacer(),
+                      const Spacer(),
                     ],
                   ),
                 ),
@@ -147,28 +149,26 @@ class AboutPage extends StatelessWidget {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: const [
-                      SocialMediaButton.linkedin(
-              url: "https://in.linkedin.com/in/suryateja-dakey-aa9852190?original_referer=https%3A%2F%2Fwww.google.com%2F",
-              size: 35,
-              color: Colors.blue,
-            ),
+                    SocialMediaButton.linkedin(
+                      url: "https://in.linkedin.com/in/suryateja-dakey-aa9852190?original_referer=https%3A%2F%2Fwww.google.com%2F",
+                      size: 35,
+                      color: Colors.blue,
+                    ),
                     SocialMediaButton.github(
-              url: "https://github.com/suryateja-dakey/Portfolio",
-              size: 35,
-              color: Colors.blue,
-            ),
-              SocialMediaButton.whatsapp(
-              url: "https://wa.me/918328166464",
-              size: 35,
-              color: Colors.green,
-            ),
-             SocialMediaButton.instagram(
-              url: "https://www.instagram.com/ifucook?igsh=a3E1OXU4MmxraDMx&utm_source=qr",
-              size: 35,
-              color: Colors.pink,
-            ),
-           
-           
+                      url: "https://github.com/suryateja-dakey/Portfolio",
+                      size: 35,
+                      color: Colors.blue,
+                    ),
+                    SocialMediaButton.whatsapp(
+                      url: "https://wa.me/918328166464",
+                      size: 35,
+                      color: Colors.green,
+                    ),
+                    SocialMediaButton.instagram(
+                      url: "https://www.instagram.com/ifucook?igsh=a3E1OXU4MmxraDMx&utm_source=qr",
+                      size: 35,
+                      color: Colors.pink,
+                    ),
                   ],
                 ),
                 buildConnectFooter(),
@@ -180,3 +180,4 @@ class AboutPage extends StatelessWidget {
     );
   }
 }
+

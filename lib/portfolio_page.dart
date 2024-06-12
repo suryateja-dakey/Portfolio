@@ -32,6 +32,11 @@ class _PortfolioPageState extends State<PortfolioPage> {
 
   @override
   Widget build(BuildContext context) {
+    // Get screen width
+    double screenWidth = MediaQuery.of(context).size.width;
+    double tabTextSize = screenWidth < 600 ? 12 : 16;
+    double appBarHeight = screenWidth < 600 ? 100 : 200;
+
     return SafeArea(
       child: Scaffold(
         backgroundColor: Colors.black,
@@ -40,7 +45,7 @@ class _PortfolioPageState extends State<PortfolioPage> {
             return <Widget>[
               SliverAppBar(
                 backgroundColor: appBarBackgroundColor,
-                expandedHeight: 200.0,
+                expandedHeight: appBarHeight,
                 floating: false,
                 pinned: true,
                 stretch: true,
@@ -48,7 +53,7 @@ class _PortfolioPageState extends State<PortfolioPage> {
                   centerTitle: true,
                   title: Text("Surya Teja Dakey",
                       style: GoogleFonts.reenieBeanie(
-                          color: Colors.white, fontSize: 16.0)),
+                          color: Colors.white, fontSize: tabTextSize)),
                   background: Stack(
                     fit: StackFit.expand,
                     children: [
@@ -78,33 +83,41 @@ class _PortfolioPageState extends State<PortfolioPage> {
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
                   const SizedBox(width: 30),
-                  TextButton(
-                    onPressed: () => _onTabSelected(0),
-                    child: Text(
-                      "SURYA TEJA",
-                      style: tabTextStyle,
+                  Expanded(
+                    child: TextButton(
+                      onPressed: () => _onTabSelected(0),
+                      child: Text(
+                        "SURYA TEJA",
+                        style: tabTextStyle.copyWith(fontSize: tabTextSize),
+                      ),
                     ),
                   ),
                   const Spacer(),
-                  TextButton(
-                    onPressed: () => _onTabSelected(1),
-                    child: Text(
-                      "WORKS",
-                      style: tabTextStyle,
+                  Expanded(
+                    child: TextButton(
+                      onPressed: () => _onTabSelected(1),
+                      child: Text(
+                        "WORKS",
+                        style: tabTextStyle.copyWith(fontSize: tabTextSize),
+                      ),
                     ),
                   ),
-                  TextButton(
-                    onPressed: () => _onTabSelected(2),
-                    child: Text(
-                      "CREATIVES",
-                      style: tabTextStyle,
+                  Expanded(
+                    child: TextButton(
+                      onPressed: () => _onTabSelected(2),
+                      child: Text(
+                        "CREATIVES",
+                        style: tabTextStyle.copyWith(fontSize: tabTextSize),
+                      ),
                     ),
                   ),
-                  TextButton(
-                    onPressed: () => _onTabSelected(0),
-                    child: Text(
-                      "ABOUT",
-                      style: tabTextStyle,
+                  Expanded(
+                    child: TextButton(
+                      onPressed: () => _onTabSelected(3),
+                      child: Text(
+                        "ABOUT",
+                        style: tabTextStyle.copyWith(fontSize: tabTextSize),
+                      ),
                     ),
                   ),
                   const SizedBox(width: 25),
@@ -116,7 +129,7 @@ class _PortfolioPageState extends State<PortfolioPage> {
                   children: [
                     AboutPage(onTabSelected: _onTabSelected),
                     const WorksPage(),
-                    const CreativesPage(),
+                     CreativesPage(),
                   ],
                 ),
               ),

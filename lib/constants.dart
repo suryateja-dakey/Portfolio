@@ -14,6 +14,10 @@ final TextStyle subTextStyle = GoogleFonts.workSans(
   fontSize: 14,
   fontWeight: FontWeight.w200,
 );
+  // const TextStyle headerWorkTextStyle = TextStyle(fontSize: 18, fontWeight: FontWeight.bold);
+  // //  const TextStyle subTextStyle = TextStyle(fontSize: 14);
+  //  const TextStyle sectionTitleTextStyle = TextStyle(fontSize: 24, fontWeight: FontWeight.bold);
+
 final TextStyle noteTextStyle = GoogleFonts.workSans(
   color: Colors.white,
   fontSize: 14,

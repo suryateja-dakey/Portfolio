@@ -59,77 +59,73 @@ class _CreativesPageState extends State<CreativesPage> with SingleTickerProvider
     } else {
       itemWidget = Image.asset(
         imagePath,
-        fit: BoxFit.cover,
+        fit: BoxFit.fitWidth,
       );
     }
 
-    return Column(
-      children: [
-        Row(
-          children: [
-            Expanded(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.start,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    title,
-                    style: headerWorkTextStyle,
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 16.0),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          MouseRegion(
+            onEnter: (_) {
+              setState(() {
+                _isHovered[index] = true;
+              });
+            },
+            onExit: (_) {
+              setState(() {
+                _isHovered[index] = false;
+              });
+            },
+            child: AnimatedContainer(
+              height: _isHovered[index] ? 260 : 250,
+              width: _isHovered[index] ? 260 : 250,
+              duration: Duration(milliseconds: 300),
+              transform: _isHovered[index] ? (Matrix4.identity()..scale(1.05)) : Matrix4.identity(),
+              child: AspectRatio(
+                aspectRatio: 1,
+                child: Container(
+                  decoration: BoxDecoration(
+                    color: _containerColors[index % _containerColors.length],
+                    borderRadius: BorderRadius.circular(16.0),
                   ),
-                  const SizedBox(height: 8),
-                  Text(
-                    description,
-                    style: subTextStyle,
-                  ),
-                  const SizedBox(height: 8),
-                  Text(
-                    note,
-                    style: noteTextStyle,
-                  ),
-                ],
-              ),
-            ),
-            const SizedBox(width: 16),
-            Flexible(
-              child: MouseRegion(
-                onEnter: (_) {
-                  setState(() {
-                    _isHovered[index] = true;
-                  });
-                },
-                onExit: (_) {
-                  setState(() {
-                    _isHovered[index] = false;
-                  });
-                },
-                child: AnimatedContainer(
-                  height: 250,
-                  width: 250,
-                  duration: Duration(milliseconds: 300),
-                  transform: _isHovered[index] ? (Matrix4.identity()..scale(1.05)) : Matrix4.identity(),
-                  child: AspectRatio(
-                    aspectRatio: 1,
-                    child: Container(
-                      decoration: BoxDecoration(
-                        color: _containerColors[index % _containerColors.length],
-                        borderRadius: BorderRadius.circular(16.0),
-                      ),
-                      child: ClipRRect(
-                        borderRadius: BorderRadius.circular(16.0),
-                        child: Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: itemWidget,
-                        ),
-                      ),
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(16.0),
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: itemWidget,
                     ),
                   ),
                 ),
               ),
             ),
-          ],
-        ),
-        const Divider(thickness: 0.5),
-      ],
+          ),
+          const SizedBox(width: 16),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  title,
+                  style: headerWorkTextStyle,
+                ),
+                const SizedBox(height: 8),
+                Text(
+                  description,
+                  style: subTextStyle,
+                ),
+                const SizedBox(height: 8),
+                Text(
+                  note,
+                  style: noteTextStyle,
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),
     );
   }
 
@@ -137,56 +133,53 @@ class _CreativesPageState extends State<CreativesPage> with SingleTickerProvider
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.black,
-      body: Stack(
-        children: [
-          SingleChildScrollView(
-            child: Padding(
-              padding: const EdgeInsets.all(16.0),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  const SizedBox(height: 16),
-                  Text(
-                    'Creatives',
-                    style: sectionTitleTextStyle,
-                  ),
-                  const Divider(thickness: 0.5),
-                  buildCreativeItem(
-                    "Rive",
-                    "I can use Rive to create captivating animations for apps, enhancing user experience and engagement with visually appealing motion graphics.",
-                    "Note : Tap on the image to expirence Rive",
-                    "assets/big_wheel_demo.riv",
-                    0,
-                  ),
-                  buildCreativeItem(
-                    "Firebase",
-                    "I can integrate Firebase to enable seamless backend services integration, including authentication, real-time database, cloud storage, and more, empowering apps with robust features.",
-                    "Implement real-time database",
-                    "assets/avatar.jpg",
-                    1,
-                  ),
-                  buildCreativeItem(
-                    "Riverpod",
-                    "I can use Riverpod to simplify state management in Flutter applications, offering a declarative and intuitive approach to manage app state and dependencies.",
-                    "Manage app  state and dependencies.",
-                    "assets/avatar.jpg",
-                    2,
-                  ),
-                  buildCreativeItem(
-                    "Git",
-                    "I can use Git, a distributed version control system, to collaborate efficiently, track changes, and manage project versions effectively, ensuring code reliability and project scalability.",
-                    "Manage app  state and dependencies.",
-                    "assets/avatar.jpg",
-                    3,
-                  ),
-                ],
-              ),
+      body: Center(
+        child: SingleChildScrollView(
+          child: Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                const SizedBox(height: 16),
+                Text(
+                  'Creatives',
+                  style: sectionTitleTextStyle,
+                ),
+                const SizedBox(height: 32),
+                buildCreativeItem(
+                  "Rive",
+                  "I can use Rive to create captivating animations for apps, enhancing user experience and engagement with visually appealing motion graphics.",
+                  "Note: Tap on the image to experience Rive",
+                  "assets/big_wheel_demo.riv",
+                  0,
+                ),
+                buildCreativeItem(
+                  "Firebase",
+                  "I can integrate Firebase to enable seamless backend services integration, including authentication, real-time database, cloud storage, and more, empowering apps with robust features.",
+                  "Implement real-time database",
+                  "assets/firebaselog.png",
+                  1,
+                ),
+                buildCreativeItem(
+                  "Riverpod",
+                  "I can use Riverpod to simplify state management in Flutter applications, offering a declarative and intuitive approach to manage app state and dependencies.",
+                  "Manage app state and dependencies.",
+                  "assets/riverpodlogo.png",
+                  2,
+                ),
+                buildCreativeItem(
+                  "Git",
+                  "I can use Git, a distributed version control system, to collaborate efficiently, track changes, and manage project versions effectively, ensuring code reliability and project scalability.",
+                  "Managing code efficiently among team.",
+                  "assets/githublogo.png",
+                  3,
+                ),
+              ],
             ),
           ),
-        ],
+        ),
       ),
     );
   }
 }
-
-

@@ -113,7 +113,7 @@ class _PortfolioPageState extends State<PortfolioPage> {
                   ),
                   Expanded(
                     child: TextButton(
-                      onPressed: () => _onTabSelected(3),
+                      onPressed: () => _onTabSelected(0),
                       child: Text(
                         "ABOUT",
                         style: tabTextStyle.copyWith(fontSize: tabTextSize),

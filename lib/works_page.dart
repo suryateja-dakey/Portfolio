@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:rive/rive.dart';
 import 'package:visibility_detector/visibility_detector.dart';
@@ -74,24 +76,30 @@ class _WorksPageState extends State<WorksPage> with SingleTickerProviderStateMix
                 mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(
-                    title,
-                    style: headerWorkTextStyle,
+                  ShakeTransition(
+                    child: Text(
+                      title,
+                      style: headerWorkTextStyle,
+                    ),
                   ),
                   const SizedBox(height: 8),
-                  Text(
-                    description,
-                    style: subTextStyle,
+                  ShakeTransition(
+                    child: Text(
+                      description,
+                      style: subTextStyle,
+                    ),
                   ),
                   const SizedBox(height: 8),
                   Wrap(
                     spacing: 8.0,
                     children: labels.map((label) {
-                      return Chip(
-                        label: Text(label, style: TextStyle(color: Colors.white)),
-                        backgroundColor: Color.fromARGB(255, 44, 42, 42),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(8.0),
+                      return ShakeTransition(
+                        child: Chip(
+                          label: Text(label, style: TextStyle(color: Colors.white)),
+                          backgroundColor: Color.fromARGB(255, 44, 42, 42),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(8.0),
+                          ),
                         ),
                       );
                     }).toList(),
@@ -255,6 +263,34 @@ class _WorksPageState extends State<WorksPage> with SingleTickerProviderStateMix
           ),
         ],
       ),
+    );
+  }
+}
+
+class ShakeTransition extends StatelessWidget {
+  final Widget child;
+  final double offset;
+  final Duration duration;
+
+  const ShakeTransition({
+    Key? key,
+    required this.child,
+    this.offset = 16.0,
+    this.duration = const Duration(milliseconds: 500),
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return TweenAnimationBuilder(
+      tween: Tween(begin: 0.0, end: 1.0),
+      duration: duration,
+      builder: (context, double value, child) {
+        return Transform.translate(
+          offset: Offset(sin(value * pi * 2) * offset, 0.0),
+          child: child,
+        );
+      },
+      child: child,
     );
   }
 }

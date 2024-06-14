@@ -1,13 +1,25 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:rive/rive.dart' as rive;
-import 'constants.dart';
 import 'package:social_media_buttons/social_media_button.dart';
+import 'package:webapp/constants.dart';
 
-class AboutPage extends StatelessWidget {
+class AboutPage extends StatefulWidget {
   final Function(int) onTabSelected;
 
   const AboutPage({super.key, required this.onTabSelected});
+
+  @override
+  _AboutPageState createState() => _AboutPageState();
+}
+
+class _AboutPageState extends State<AboutPage> {
+  // A map to hold the hover state of each social media button
+  final Map<String, bool> _isHovering = {
+    'linkedin': false,
+    'github': false,
+    'whatsapp': false,
+    'instagram': false,
+  };
 
   @override
   Widget build(BuildContext context) {
@@ -36,7 +48,7 @@ class AboutPage extends StatelessWidget {
                     children: [
                       const CircleAvatar(
                         radius: 30,
-                        backgroundImage: AssetImage('assets/avatar.jpg'), // Your avatar image
+                        backgroundImage: AssetImage('assets/avatar2.jpg'), // Your avatar image
                       ),
                       const SizedBox(width: 16),
                       Flexible(
@@ -52,69 +64,47 @@ class AboutPage extends StatelessWidget {
                 const SizedBox(height: 10),
                 Padding(
                   padding: const EdgeInsets.all(16.0),
-                  child: Row(
+                  child: Column(
                     children: [
-                      Flexible(
-                        child: Text(
-                          'A passionate Flutter developer with a knack for crafting engaging and user-friendly mobile applications. I thrive in collaborative environments, working closely with designers and product managers to bring innovative ideas to life.\n\nMy current focus is on building beautiful and performant mobile apps as well as web apps using Flutter. I enjoy the challenge of translating complex functionalities into intuitive experiences that empower users.',
-                          style: GoogleFonts.kalam(
-                              color: Colors.white, fontSize: bodyFontSize, fontWeight: FontWeight.w200),
-                        ),
+                      Text(
+                        'A passionate Flutter developer with a knack for crafting engaging and user-friendly mobile applications. I thrive in collaborative environments, working closely with designers and product managers to bring innovative ideas to life.\n\nMy current focus is on building beautiful and performant mobile apps as well as web apps using Flutter. I enjoy the challenge of translating complex functionalities into intuitive experiences that empower users.',
+                        style: GoogleFonts.kalam(
+                            color: Colors.white, fontSize: bodyFontSize, fontWeight: FontWeight.w200),
                       ),
-                      const SizedBox(width: 16),
-                      Stack(
-                        children: [
-                          // rive.RiveAnimation.asset(
-                          //   "assets/eclipse.riv",
-                          //   fit: BoxFit.cover,
-                          //   artboard: 'State Machine 1',
-                          // ),
-                          ElevatedButton.icon(
-                            onPressed: () {
-                              onTabSelected(1); // Navigate to works page
-                            },
-                            icon: const Icon(Icons.arrow_right_alt),
-                            label: const Text("Some of My Works"),
-                            style: ElevatedButton.styleFrom(
-                              foregroundColor: const Color.fromARGB(255, 255, 255, 255),
-                              backgroundColor: Colors.black87,
-                              textStyle: const TextStyle(fontSize: 16),
-                              padding: const EdgeInsets.symmetric(
-                                  horizontal: 16, vertical: 12),
-                              side: const BorderSide(color: Colors.white),
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(8.0),
-                              ),
-                            ).copyWith(
-                              elevation: MaterialStateProperty.all(0),
-                              backgroundColor: MaterialStateProperty.resolveWith(
-                                  (states) {
-                                if (states.contains(MaterialState.hovered)) {
-                                  return const Color.fromARGB(255, 84, 58, 132);
-                                }
-                                return Colors.black87;
-                              }),
-                            ),
+                      const SizedBox(height: 16),
+                      Text(
+                        'Currently, I am seeking freelancing opportunities to help retail investors stay up-to-date with the financial market and grow their wealth.',
+                        style: GoogleFonts.kalam(
+                            color: Colors.white, fontSize: bodyFontSize, fontWeight: FontWeight.w200),
+                      ),
+                      const SizedBox(height: 16),
+                      ElevatedButton.icon(
+                        onPressed: () {
+                          widget.onTabSelected(1); // Navigate to works page
+                        },
+                        icon: const Icon(Icons.arrow_right_alt),
+                        label: const Text("Some of My Works"),
+                        style: ElevatedButton.styleFrom(
+                          foregroundColor: const Color.fromARGB(255, 255, 255, 255),
+                          backgroundColor: Colors.black87,
+                          textStyle: const TextStyle(fontSize: 16),
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 16, vertical: 12),
+                          side: const BorderSide(color: Colors.white),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(8.0),
                           ),
-                        ],
-                      ),
-                    ],
-                  ),
-                ),
-                const SizedBox(height: 10),
-                Padding(
-                  padding: const EdgeInsets.all(16.0),
-                  child: Row(
-                    children: [
-                      Flexible(
-                        child: Text(
-                          'Currently, I am seeking freelancing opportunities to help retail investors stay up-to-date with the financial market and grow their wealth.',
-
-                          style: GoogleFonts.kalam(
-                                color: Colors.white, fontSize: bodyFontSize, fontWeight: FontWeight.w200),
+                        ).copyWith(
+                          elevation: MaterialStateProperty.all(0),
+                          backgroundColor: MaterialStateProperty.resolveWith(
+                              (states) {
+                            if (states.contains(MaterialState.hovered)) {
+                              return const Color.fromARGB(255, 84, 58, 132);
+                            }
+                            return Colors.black87;
+                          }),
                         ),
                       ),
-                      const Spacer(),
                     ],
                   ),
                 ),
@@ -128,50 +118,58 @@ class AboutPage extends StatelessWidget {
                 const SizedBox(height: 16),
                 Text(
                   'Contact Me:',
-                  style: sectionTitleTextStyle.copyWith(color: Colors.white),
+                  style: GoogleFonts.kalam(color: Colors.white, fontSize: bodyFontSize, fontWeight: FontWeight.bold),
                 ),
                 const SizedBox(height: 8),
                 Text(
                   'Email: suryateja.dakey@gmail.com',
-                  style: sectionContentTextStyle.copyWith(color: Colors.white),
+                  style: GoogleFonts.kalam(color: Colors.white, fontSize: bodyFontSize),
                 ),
                 const SizedBox(height: 8),
                 Text(
                   'Phone: 8328166464',
-                  style: sectionContentTextStyle.copyWith(color: Colors.white),
+                  style: GoogleFonts.kalam(color: Colors.white, fontSize: bodyFontSize),
                 ),
                 const SizedBox(height: 8),
                 Text(
                   'Social Media:',
-                  style: sectionTitleTextStyle.copyWith(color: Colors.white),
+                  style: GoogleFonts.kalam(color: Colors.white, fontSize: bodyFontSize, fontWeight: FontWeight.bold),
                 ),
                 const SizedBox(height: 8),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
-                  children: const [
-                    SocialMediaButton.linkedin(
-                      url: "https://in.linkedin.com/in/suryateja-dakey-aa9852190?original_referer=https%3A%2F%2Fwww.google.com%2F",
-                      size: 35,
-                      color: Colors.blue,
-                    ),
-                    SocialMediaButton.github(
-                      url: "https://github.com/suryateja-dakey/Portfolio",
-                      size: 35,
-                      color: Colors.blue,
-                    ),
-                    SocialMediaButton.whatsapp(
-                      url: "https://wa.me/918328166464",
-                      size: 35,
-                      color: Colors.green,
-                    ),
-                    SocialMediaButton.instagram(
-                      url: "https://www.instagram.com/ifucook?igsh=a3E1OXU4MmxraDMx&utm_source=qr",
-                      size: 35,
-                      color: Colors.pink,
-                    ),
+                  children: [
+                    buildAnimatedSocialButton(
+                        'linkedin',
+                        SocialMediaButton.linkedin(
+                          url: "https://in.linkedin.com/in/suryateja-dakey-aa9852190?original_referer=https%3A%2F%2Fwww.google.com%2F",
+                          size: 35,
+                          color: Colors.blue,
+                        )),
+                    buildAnimatedSocialButton(
+                        'github',
+                        SocialMediaButton.github(
+                          url: "https://github.com/suryateja-dakey/Portfolio",
+                          size: 35,
+                          color: Colors.blue,
+                        )),
+                    buildAnimatedSocialButton(
+                        'whatsapp',
+                        SocialMediaButton.whatsapp(
+                          url: "https://wa.me/918328166464",
+                          size: 35,
+                          color: Colors.green,
+                        )),
+                    buildAnimatedSocialButton(
+                        'instagram',
+                        SocialMediaButton.instagram(
+                          url: "https://www.instagram.com/ifucook?igsh=a3E1OXU4MmxraDMx&utm_source=qr",
+                          size: 35,
+                          color: Colors.pink,
+                        )),
                   ],
                 ),
-                buildConnectFooter(),
+                screenWidth < 600 ? const SizedBox() : buildConnectFooter(),
               ],
             ),
           ),
@@ -179,5 +177,24 @@ class AboutPage extends StatelessWidget {
       ),
     );
   }
-}
 
+  Widget buildAnimatedSocialButton(String key, Widget button) {
+    return MouseRegion(
+      onEnter: (_) => _onHover(key, true),
+      onExit: (_) => _onHover(key, false),
+      child: AnimatedContainer(
+        duration: const Duration(milliseconds: 300),
+        transform: _isHovering[key]! ? (Matrix4.identity()..scale(1.2)) : Matrix4.identity(),
+        child: button,
+      ),
+    );
+  }
+
+  void _onHover(String key, bool isHovered) {
+    setState(() {
+      _isHovering[key] = isHovered;
+    });
+  }
+
+ 
+}

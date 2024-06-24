@@ -13,12 +13,23 @@ class PortfolioPage extends StatefulWidget {
   State<PortfolioPage> createState() => _PortfolioPageState();
 }
 
-class _PortfolioPageState extends State<PortfolioPage> {
+class _PortfolioPageState extends State<PortfolioPage> with SingleTickerProviderStateMixin {
   late rive.StateMachineController? stateMachineController;
   rive.SMIInput<bool>? isHead;
   final PageController _pageController = PageController();
 
   final List<bool> _isHovered = List.filled(4, false);
+  late AnimationController? _animationController;
+
+  @override
+  void initState() {
+    super.initState();
+    _animationController = AnimationController(
+      duration: const Duration(milliseconds: 300),
+      vsync: this,
+    );
+    // _requestPermissions();
+  }
 
   void _toggleHeadAnimation() {
     if (isHead == null) return;
@@ -35,6 +46,7 @@ class _PortfolioPageState extends State<PortfolioPage> {
   @override
   void dispose() {
     _pageController.dispose();
+    _animationController?.dispose();
     super.dispose();
   }
 
@@ -217,7 +229,12 @@ class _PortfolioPageState extends State<PortfolioPage> {
                                         fontSize: tabTextSize,
                                         fontWeight: FontWeight.w400),
                                   ),
-                                  Icon(Icons.menu,color: Colors.white,size: 18,)
+                                  AnimatedIcon(
+                                    icon: AnimatedIcons.menu_close,
+                                    progress: _animationController!,
+                                    color: Colors.white,
+                                    size: 18,
+                                  )
                                 ],
                               ),
                             ),
@@ -345,7 +362,7 @@ class _PortfolioPageState extends State<PortfolioPage> {
                   controller: _pageController,
                   children: [
                     AboutPage(onTabSelected: _onTabSelected),
-                    const WorksPage(),
+                     WorksPage(onTabSelected: _onTabSelected),
                     CreativesPage(),
                   ],
                 ),

@@ -7,7 +7,9 @@ import 'package:visibility_detector/visibility_detector.dart';
 import 'constants.dart';
 
 class WorksPage extends StatefulWidget {
-  const WorksPage({Key? key}) : super(key: key);
+    final Function(int) onTabSelected;
+
+  const WorksPage({super.key, required this.onTabSelected});
 
   @override
   _WorksPageState createState() => _WorksPageState();
@@ -167,11 +169,13 @@ class _WorksPageState extends State<WorksPage> {
                     "Card Management App for Card Holder",
                     "A user-centric crypto exchange providing a seamless trading experience designed for novice and advanced users.",
                     [
-                      "assets/myworks/cms1.png",
-                      "assets/myworks/cms2.png",
+                      "assets/myworks/cmso3.png",
+                      "assets/myworks/cmso2.png",
+                      "assets/myworks/cmso1.png",
+                     
                     ],
                     0,
-                    ["Finance", "Crypto", "User Experience"],
+                    ["Finance", "Payments", "User Experience"],
                     Colors.green.shade100,
                   ),
                   buildWorkItem(
@@ -225,6 +229,37 @@ class _WorksPageState extends State<WorksPage> {
                     ["Chat", "Firebase", "Realtime"],
                     Colors.purple.shade100,
                   ),
+                    const SizedBox(height: 16),
+                    Center(
+                      child: ElevatedButton.icon(
+                          onPressed: () {
+                            widget.onTabSelected(2); // Navigate to Creatives page
+                          },
+                          icon: const Icon(Icons.arrow_right_alt),
+                          label: const Text("Creatives"),
+                          style: ElevatedButton.styleFrom(
+                            foregroundColor: const Color.fromARGB(255, 255, 255, 255),
+                            backgroundColor: Colors.black87,
+                            textStyle: const TextStyle(fontSize: 16),
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: 16, vertical: 12),
+                            side: const BorderSide(color: Colors.white),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(8.0),
+                            ),
+                          ).copyWith(
+                            elevation: MaterialStateProperty.all(0),
+                            backgroundColor: MaterialStateProperty.resolveWith(
+                                (states) {
+                              if (states.contains(MaterialState.hovered)) {
+                                return const Color.fromARGB(255, 84, 58, 132);
+                              }
+                              return Colors.black87;
+                            }),
+                          ),
+                        ),
+                    ),
+                        const SizedBox(height: 16),
                   buildConnectFooter(),
                 ],
               ),
